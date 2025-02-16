@@ -48,7 +48,26 @@ function handleUserSelection(event) {
 const userSelect = document.getElementById("user-select");
   userSelect.addEventListener("change", handleUserSelection);
 
-  displayAnswers(userId){
+  function displayAnswers(userId){
+    const answerDiv = document.getElementById("answers");
+    const listenEvents = getListenEvents(userId);
 
+    if (!listenEvents || listenEvents.length === 0) {
+      answerDiv.textContent = "This user didn't listen to any songs.";
+      return;
+    }
+
+
+    let answerHtml = `<table border="1">
+      <thead>
+        <tr>
+          <th>Question</th>
+          <th>Answer</th><
+        /tr>
+      </thead>
+      <tbody>`;
+    
+    answerHtml += `</tbody></table>`;
+    answerDiv.innerHTML = answerHtml;
   }
 
