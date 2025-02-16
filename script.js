@@ -30,5 +30,25 @@ function populateUserDropdown() {
   });
 }
 
+function handleUserSelection(event) {
+  const selectedUserId = event.target.value; 
+  const answerDiv = document.getElementById("answers");
 
+  // Clear
+  answerDiv.innerHTML = "";
+
+  if (selectedUserId) {
+   displayAnswers(selectedUserId);
+  }
+  else {
+    document.getElementById('answers').innerHTML = 'Please select a user.';
+  }
+}
+
+const userSelect = document.getElementById("user-select");
+  userSelect.addEventListener("change", handleUserSelection);
+
+  displayAnswers(userId){
+
+  }
 
