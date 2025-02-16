@@ -66,8 +66,11 @@ const userSelect = document.getElementById("user-select");
         /tr>
       </thead>
       <tbody>`;
-    
+
     answerHtml += `</tbody></table>`;
     answerDiv.innerHTML = answerHtml;
   }
 
+function addAnswerRow(question, answer) {
+  return answer ? `<tr><td>${question}</td><td>${answer}</td></tr>` : "";
+}
