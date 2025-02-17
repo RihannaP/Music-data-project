@@ -1,11 +1,13 @@
 
 import { getSong } from "./data.js";
 
-
+//create new row in table
 function addAnswerRow(question, answer) {
     return answer ? `<tr><td><span style="font-weight:bold">${question}</span></td><td>${answer}</td></tr>` : "";
   }
 
+
+// get top item handler
   function getTopItem(counts) {
     let topItem = "";
     let maxCount = 0;
@@ -19,7 +21,7 @@ function addAnswerRow(question, answer) {
     return topItem
   }
 
-
+//getMostListendSong count/time/artist
   function getMostListenedSong(events, time, artist) {
     const songCounts = {};
   
@@ -39,6 +41,7 @@ function addAnswerRow(question, answer) {
  
   }
   
+  //getMostListendSong for Friday
   function getMostListenedFridaySong(events, time) {
     const songFriday = {};
   
@@ -58,6 +61,7 @@ function addAnswerRow(question, answer) {
     return getTopItem(songFriday);
   }
   
+  //get Longest Streak song
   
   function getLongestStreakSong(events) {
     let maxStreak = 0;
@@ -88,6 +92,7 @@ function addAnswerRow(question, answer) {
   }
   
 
+  //get everyday song
   function getEverydaySongs(events) {
     const songDays = {};
   
@@ -104,6 +109,8 @@ function addAnswerRow(question, answer) {
     return Object.keys(songDays).filter(song => songDays[song].size === totalDays).join(", ") || "";
   }
   
+
+  //get top genres
   function getTopGenres(events) {
     const genreCounts = {};
   
