@@ -139,7 +139,7 @@ const userSelect = document.getElementById("user-select");
       const date = new Date(event.timestamp);
       const day = date.getDay();
       const hours = date.getHours();
-      //console.log(`date: ${date}, day: ${day}, hours: ${hours}`)
+
       if ((day === 5 && hours > 17 )|| (day === 6 && hours < 4)) {
         console.log(`date: ${date}, day: ${day}, hours: ${hours}`)
         const song = getSong(event.song_id);
@@ -156,7 +156,7 @@ const userSelect = document.getElementById("user-select");
     let maxStreak = 0;
     let currentStreak = 0;
     let lastSong = "";
-    let longestSong = "";
+    let longestSong = [];
   
     events.forEach(event => {
       const song = getSong(event.song_id);
@@ -171,26 +171,29 @@ const userSelect = document.getElementById("user-select");
   
       if (currentStreak > maxStreak) {
         maxStreak = currentStreak;
-        longestSong = key;
+        longestSong = [key];
+      } else if(currentStreak === maxStreak){
+        longestSong.push(key)
       }
     });
   
-    return longestSong ? `${longestSong} (length: ${maxStreak})` : "";
+    return longestSong ? `${longestSong.join(", ")} (length: ${maxStreak})` : "";
   }
   
+
   function getEverydaySongs(events) {
     const songDays = {};
   
     events.forEach(event => {
       const song = getSong(event.song_id);
       const key = `${song.artist} - ${song.title}`
-
       const date = new Date(event.timestamp).toDateString();
+
       songDays[key] = songDays[key] || new Set();
       songDays[key].add(date);
     });
   
-    const totalDays = new Set(events.map(e => new Date(e.timestamp).toDateString())).size;
+    const totalDays = new Set(events.map(x => new Date(x.timestamp).toDateString())).size;
     return Object.keys(songDays).filter(song => songDays[song].size === totalDays).join(", ") || "";
   }
   
