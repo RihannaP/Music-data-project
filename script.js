@@ -57,11 +57,16 @@ const userSelect = document.getElementById("user-select");
       answerDiv.textContent = "This user didn't listen to any songs.";
       return;
     }
-
-    const mostListenedSongCount = getMostListenedSong(listenEvents);
-    const mostListenedSongTime = getMostListenedSongTime(listenEvents);
-    const mostListenedArtistCount = getMostListenedArtist(listenEvents);
-  const mostListenedArtistTime = getMostListenedArtistTime(listenEvents);
+    // getMostListenedSong(events, time, artist);
+    const mostListenedSongCount = getMostListenedSong(listenEvents, false, false);
+    const mostListenedSongTime = getMostListenedSong(listenEvents, true, false);
+    const mostListenedArtistCount = getMostListenedSong(listenEvents, false, true);
+    const mostListenedArtistTime = getMostListenedSong(listenEvents, true, true);
+    // const fridayNightSongCount = getMostListenedFridaySong(listenEvents);
+    // const fridayNightSongTime = getMostListenedFridaySong(listenEvents, true);
+    // const longestStreakSong = getLongestStreakSong(listenEvents);
+    // const dailySongs = getEverydaySongs(listenEvents);
+    // const topGenres = getTopGenres(listenEvents);
 
 
     let answerHtml = `<table border="1">
@@ -77,7 +82,11 @@ const userSelect = document.getElementById("user-select");
     answerHtml += addAnswerRow("Most listened song (count)", mostListenedSongCount);
     answerHtml += addAnswerRow("Most listened song (time)", mostListenedSongTime);
     answerHtml += addAnswerRow("Most listened artist (count)", mostListenedArtistCount);
-  answerHtml += addAnswerRow("Most listened artist (time)", mostListenedArtistTime);
+    answerHtml += addAnswerRow("Most listened artist (time)", mostListenedArtistTime);
+    // answerHtml += addAnswerRow("Friday night song (time)", fridayNightSongTime);
+    // answerHtml += addAnswerRow("Longest streak song", longestStreakSong);
+    // answerHtml += addAnswerRow("Every day songs", dailySongs);
+    // answerHtml += addAnswerRow("Top genres", topGenres);
 
 
 
@@ -89,22 +98,6 @@ const userSelect = document.getElementById("user-select");
     return answer ? `<tr><td><span style="font-weight:bold">${question}</span></td><td>${answer}</td></tr>` : "";
   }
 
-
-  function getMostListenedSong(events) {
-    const songCounts = {};
-  
-     events.forEach(event => {
-      
-      songCounts[event.song_id] = (songCounts[event.song_id] || 0) + 1
-    });
-
-    let mostListendId = getTopItem(songCounts)
-    const song = getSong(mostListendId)
-  
-    return `${song.artist} - ${song.title}`
-    
-  }
-  
   function getTopItem(counts) {
     let topItem = "";
     let maxCount = 0;
@@ -118,45 +111,25 @@ const userSelect = document.getElementById("user-select");
     return topItem
   }
 
-  function getMostListenedSongTime(events){
-    const songTimes = {};
+
+  function getMostListenedSong(events, time, artist) {
+    const songCounts = {};
   
      events.forEach(event => {
-      
-      songTimes[event.song_id] = (songTimes[event.song_id] || 0) + (getSong(event.song_id).duration_seconds)
+      const song = getSong(event.song_id)
+      if(artist){
+        const key = `${song.artist}`
+        songCounts[key] = (songCounts[key] || 0) + (song.duration_seconds)
+      }
+      else{
+      const key = `${song.artist} - ${song.title}`
+      songCounts[key] = (songCounts[key] || 0) + (time ? (song.duration_seconds) : 1)
+      }
     });
 
-    let mostListendId = getTopItem(songTimes)
-    const song = getSong(mostListendId)
-  
-    return `${song.artist} - ${song.title}`
-  }
-
-  function getMostListenedArtist(events) {
-    const songArtists = {};
-  
-     events.forEach(event => {
-      
-      songArtists[getSong(event.song_id).artist] = (songArtists[getSong(event.song_id).artist] || 0) + 1
-    });
-
-    let mostListendA = getTopItem(songArtists)
+     let mostListend = getTopItem(songCounts)
+    return `${mostListend}`
  
-  
-    return `${mostListendA}`
   }
-
-  function getMostListenedArtistTime(events){
-
-    const songArtistsT = {};
   
-     events.forEach(event => {
-      
-      songArtistsT[getSong(event.song_id).artist] = (songArtistsT[getSong(event.song_id).artist] || 0) + (getSong(event.song_id).duration_seconds)
-    });
-
-    let mostListendA = getTopItem(songArtistsT)
- 
   
-    return `${mostListendA}`
-  }
