@@ -48,6 +48,7 @@ function handleUserSelection(event) {
 const userSelect = document.getElementById("user-select");
   userSelect.addEventListener("change", handleUserSelection);
 
+
   function displayAnswers(userId){
     const answerDiv = document.getElementById("answers");
     const listenEvents = getListenEvents(userId);
@@ -56,6 +57,8 @@ const userSelect = document.getElementById("user-select");
       answerDiv.textContent = "This user didn't listen to any songs.";
       return;
     }
+
+    const mostListenedSongCount = getMostListenedSong(listenEvents);
 
 
     let answerHtml = `<table border="1">
@@ -67,10 +70,44 @@ const userSelect = document.getElementById("user-select");
       </thead>
       <tbody>`;
 
+    
+    answerHtml += addAnswerRow("Most listened song (count)", mostListenedSongCount);
+
+
+
     answerHtml += `</tbody></table>`;
     answerDiv.innerHTML = answerHtml;
   }
 
-function addAnswerRow(question, answer) {
-  return answer ? `<tr><td>${question}</td><td>${answer}</td></tr>` : "";
-}
+  function addAnswerRow(question, answer) {
+    return answer ? `<tr><td><span style="font-weight:bold">${question}</span></td><td>${answer}</td></tr>` : "";
+  }
+
+
+  function getMostListenedSong(events) {
+    const songCounts = {};
+  
+     events.forEach(event => {
+      
+      songCounts[event.song_id] = (songCounts[event.song_id] || 0) + 1
+    });
+
+    let mostListendId = getTopItem(songCounts)
+    const song = getSong(mostListendId)
+  
+    return `${song.artist} - ${song.title}`
+    
+  }
+  
+  function getTopItem(counts) {
+    let topItem = "";
+    let maxCount = 0;
+  
+    for (const [key, count] of Object.entries(counts)) {
+      if (count > maxCount) {
+        maxCount = count;
+        topItem = key;
+      }
+    }
+    return topItem
+  }
