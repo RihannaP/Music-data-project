@@ -1,0 +1,25 @@
+{
+  "name": "music-data-project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "script.test.js",
+  "type": "module",
+  "scripts": {
+    "test": "node --experimental-vm-modules ./node_modules/.bin/jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RihannaP/Music-data-project.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RihannaP/Music-data-project/issues"
+  },
+  "homepage": "https://github.com/RihannaP/Music-data-project#readme",
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0"
+  }
+}
