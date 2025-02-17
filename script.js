@@ -62,8 +62,8 @@ const userSelect = document.getElementById("user-select");
       <thead>
         <tr>
           <th>Question</th>
-          <th>Answer</th><
-        /tr>
+          <th>Answer</th>
+          </tr>
       </thead>
       <tbody>`;
 
