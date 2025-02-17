@@ -59,6 +59,7 @@ const userSelect = document.getElementById("user-select");
     }
 
     const mostListenedSongCount = getMostListenedSong(listenEvents);
+    const mostListenedSongTime = getMostListenedSongTime(listenEvents);
 
 
     let answerHtml = `<table border="1">
@@ -72,6 +73,7 @@ const userSelect = document.getElementById("user-select");
 
     
     answerHtml += addAnswerRow("Most listened song (count)", mostListenedSongCount);
+    answerHtml += addAnswerRow("Most listened song (time)", mostListenedSongTime);
 
 
 
@@ -110,4 +112,18 @@ const userSelect = document.getElementById("user-select");
       }
     }
     return topItem
+  }
+
+  function getMostListenedSongTime(events){
+    const songTimes = {};
+  
+     events.forEach(event => {
+      
+      songTimes[event.song_id] = (songTimes[event.song_id] || 0) + (getSong(event.song_id).duration_seconds)
+    });
+
+    let mostListendId = getTopItem(songTimes)
+    const song = getSong(mostListendId)
+  
+    return `${song.artist} - ${song.title}`
   }
